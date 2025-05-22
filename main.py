@@ -2,8 +2,11 @@ from threading import Thread
 import importlib
 import os
 
+from genprodcons import GenProdCons
+from rendezvousdechange import RendezvousDEchange
+
 expected_module = 'PRODCONSMODULE'
-default_module = 'pysyn'
+default_module = 'pysync'
 
 if expected_module in os.environ:
     prod_cons_mdl = os.environ[expected_module]
@@ -18,11 +21,13 @@ def producer(prod_cons):
         prod_cons.put(i)
         i = i + 1
 
-def consumer(prod_cons,rendevouz,number_mod):
+def consumer(prod_cons, rendezvous, number_mod):
     while True:
-        i = prod_cons.get(i)
+        value = prod_cons.get()
+        exchanged = rendezvous.echanger(value)
+        print(f"Consumidor recibió: {value}, intercambiado por: {exchanged}, módulo: {number_mod}")
 
-if __main__ == "main":
+if __name__ == "__main__":
     prod_cons_1 = GenProdCons()
     prod_cons_2 = GenProdCons()
     rendezvous  = RendezvousDEchange
