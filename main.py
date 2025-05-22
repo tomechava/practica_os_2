@@ -30,11 +30,17 @@ def consumer(prod_cons, rendezvous, number_mod):
 if __name__ == "__main__":
     prod_cons_1 = GenProdCons()
     prod_cons_2 = GenProdCons()
-    rendezvous  = RendezvousDEchange
-    thr_prod_1 = Thread(target = producer, args=(prod_cons_1))
-    thr_prod_2 = Thread(target = producer, args=(prod_cons_2))
-    thr_cons_1 = Thread(target = consumer, args=(prod_cons_1, rendezvous, 5000))
-    thr_cons_2 = Thread(target = consumer, args=(prod_cons_2, rendezvous, 3000))
+    rendezvous  = RendezvousDEchange()
+
+    thr_prod_1 = Thread(target=producer, args=(prod_cons_1,))
+    thr_prod_2 = Thread(target=producer, args=(prod_cons_2,))
+    thr_cons_1 = Thread(target=consumer, args=(prod_cons_1, rendezvous, 5000))
+    thr_cons_2 = Thread(target=consumer, args=(prod_cons_2, rendezvous, 3000))
+
+    thr_prod_1.start()
+    thr_prod_2.start()
+    thr_cons_1.start()
+    thr_cons_2.start()
     
     thr_prod_1.join()
     thr_prod_2.join()
