@@ -2,8 +2,8 @@ from threading import Thread
 import importlib
 import os
 
-from genprodcons import GenProdCons
-from rendezvousdechange import RendezvousDEchange
+from pysync.genprodcons import GenProdCons
+from pysync.rendezvousdechange import RendezvousDEchange
 
 expected_module = 'PRODCONSMODULE'
 default_module = 'pysync'
@@ -35,6 +35,7 @@ if __name__ == "__main__":
     thr_prod_2 = Thread(target = producer, args=(prod_cons_2))
     thr_cons_1 = Thread(target = consumer, args=(prod_cons_1, rendezvous, 5000))
     thr_cons_2 = Thread(target = consumer, args=(prod_cons_2, rendezvous, 3000))
+    
     thr_prod_1.join()
     thr_prod_2.join()
     thr_cons_1.join()
